@@ -5,7 +5,7 @@ from django.conf import settings
 class Project(models.Model):
 
     title = models.CharField(max_length=64)
-    description = models.CharField(max_length=4096)
+    description = models.CharField(max_length=4096, blank=True)
 
     class Type(models.TextChoices):
         BACK_END = 'BE'
@@ -18,11 +18,17 @@ class Project(models.Model):
     contributors = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Contributor',
                                           related_name='contributions')
 
+    def __str__(self):
+        return self.title
+
+    def __repr__(self):
+        return str(self)
+
 
 class Issue(models.Model):
 
     title = models.CharField(max_length=64)
-    description = models.CharField(max_length=4096)
+    description = models.CharField(max_length=4096, blank=True)
 
     class Tag(models.TextChoices):
         BUG = 'BU'
@@ -47,9 +53,15 @@ class Issue(models.Model):
     author_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
                                     related_name='issues')
     assignee_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True,
-                                      related_name='assigned_issues')
+                                      related_name='assigned_issues', blank=True)
 
     created_time = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+    def __repr__(self):
+        return str(self)
 
 
 class Comment(models.Model):
@@ -60,6 +72,12 @@ class Comment(models.Model):
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='comments')
 
     created_time = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'Comment {self.pk}'
+
+    def __repr__(self):
+        return str(self)
 
 
 class Contributor(models.Model):
