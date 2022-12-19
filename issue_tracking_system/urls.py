@@ -19,12 +19,20 @@ from rest_framework_nested import routers
 
 from api.views import ProjectViewSet, IssueViewSet, CommentViewSet
 
-router = routers.SimpleRouter()
-router.register('project', ProjectViewSet, basename='project')
-router.register('issue', IssueViewSet, basename='issue')
-router.register('comment', CommentViewSet, basename='comment')
+API_PATH = 'api/'
+
+router = routers.DefaultRouter()
+router.register(r'project', ProjectViewSet, basename='project')
+
+project_router = routers.NestedSimpleRouter(router, r'project', lookup='project')
+project_router.register(r'issue', IssueViewSet, basename='issue')
+
+issue_router = routers.NestedSimpleRouter(project_router, r'issue', lookup='issue')
+issue_router.register(r'comment', CommentViewSet, basename='comment')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    path(API_PATH, include(router.urls)),
+    path(API_PATH, include(project_router.urls)),
+    path(API_PATH, include(issue_router.urls)),
 ]

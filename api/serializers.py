@@ -10,7 +10,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = ['title', 'description', 'type', 'contributors']
 
 
-class IssueSerialize(serializers.ModelSerializer):
+class IssueSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Issue
