@@ -9,4 +9,5 @@ class UserViewSet(ModelViewSet):
     serializer_class = auth_serializers.UserSerializer
 
     def get_queryset(self):
-        return get_user_model().objects.filter(contributions=self.kwargs['project_pk'])
+        return get_user_model().objects.filter(contributions=self.kwargs['project_pk'],
+                                               contributions__contributors=self.request.user)
