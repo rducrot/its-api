@@ -1,8 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 
+from api import serializers
 from api.models import Project, Issue, Comment
-from api.serializers import ProjectListSerializer, ProjectDetailSerializer,\
-    IssueListSerializer, IssueDetailSerializer, CommentSerializer
 
 
 class MultipleSerializerMixin:
@@ -19,8 +18,8 @@ class MultipleSerializerMixin:
 
 class ProjectViewSet(MultipleSerializerMixin, ModelViewSet):
 
-    serializer_class = ProjectListSerializer
-    detail_serializer_class = ProjectDetailSerializer
+    serializer_class = serializers.ProjectListSerializer
+    detail_serializer_class = serializers.ProjectDetailSerializer
 
     def get_queryset(self):
         return Project.objects.all()
@@ -28,8 +27,8 @@ class ProjectViewSet(MultipleSerializerMixin, ModelViewSet):
 
 class IssueViewSet(MultipleSerializerMixin, ModelViewSet):
 
-    serializer_class = IssueListSerializer
-    detail_serializer_class = IssueDetailSerializer
+    serializer_class = serializers.IssueListSerializer
+    detail_serializer_class = serializers.IssueDetailSerializer
 
     def get_queryset(self):
         return Issue.objects.filter(project=self.kwargs['project_pk'])
@@ -37,7 +36,9 @@ class IssueViewSet(MultipleSerializerMixin, ModelViewSet):
 
 class CommentViewSet(MultipleSerializerMixin, ModelViewSet):
 
-    serializer_class = CommentSerializer
+    serializer_class = serializers.CommentListSerializer
+    detail_serializer_class = serializers.CommentDetailSerializer
 
     def get_queryset(self):
         return Comment.objects.filter(issue=self.kwargs['issue_pk'], issue__project=self.kwargs['project_pk'])
+
