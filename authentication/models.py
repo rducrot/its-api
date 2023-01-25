@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db.models import EmailField
 
+from api.models import Contributor
+
 
 class UserManager(BaseUserManager):
     """
@@ -48,3 +50,12 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
     objects = UserManager()
+
+    def is_author(self, project):
+        try:
+            instance = Contributor.objects.get(project=project, user=self)
+            if instance.permission == Contributor.Permission.AUTHOR:
+                return True
+        except ValueError:
+            # TODO
+            pass

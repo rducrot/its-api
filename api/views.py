@@ -1,6 +1,7 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
+from api import permissions
 from api import serializers
 from api.models import Project, Issue, Comment
 
@@ -19,7 +20,7 @@ class MultipleSerializerMixin:
 
 class ProjectViewSet(MultipleSerializerMixin, ModelViewSet):
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.ProjectPermission]
 
     serializer_class = serializers.ProjectListSerializer
     detail_serializer_class = serializers.ProjectDetailSerializer

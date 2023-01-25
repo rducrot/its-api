@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from api.models import Project, Issue, Comment
+from api.models import Project, Issue, Comment, Contributor
 from authentication.serializers import UserSerializer
 
 
@@ -69,6 +69,13 @@ class ProjectListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = ['pk', 'title', 'description', 'type']
+
+    def create(self, validated_data):
+        project = Project.objects.create(**validated_data)
+        user = self.context['request'].user
+        Contributor.objects.create(user=user, project=project,
+                                   permission=Contributor.Permission.AUTHOR, role='Author')
+        return project
 
 
 class ProjectDetailSerializer(serializers.ModelSerializer):
