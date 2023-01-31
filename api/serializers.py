@@ -26,15 +26,16 @@ class CommentDetailSerializer(serializers.ModelSerializer):
         serializer = UserSerializer(queryset)
         return serializer.data
 
+    def get_issue(self, instance):
+        queryset = instance.issue
+        serializer = IssueListSerializer(queryset)
+        return serializer.data
+
     def get_project(self, instance):
         queryset = instance.issue.project
         serializer = ProjectListSerializer(queryset)
         return serializer.data
 
-    def get_issue(self, instance):
-        queryset = instance.issue
-        serializer = IssueListSerializer(queryset)
-        return serializer.data
 
 
 class IssueListSerializer(serializers.ModelSerializer):
@@ -109,8 +110,8 @@ class ProjectDetailSerializer(serializers.ModelSerializer):
 
     def get_contributors(self, instance):
         queryset = instance.contributors.all()
-        serializers = UserSerializer(queryset, many=True)
-        return serializers.data
+        serializer = UserSerializer(queryset, many=True)
+        return serializer.data
 
     def get_issues(self, instance):
         queryset = instance.issues.all()

@@ -1,10 +1,8 @@
-from django.contrib.auth import get_user_model
 from rest_framework.viewsets import ModelViewSet
 
 from api.permissions import ProjectPermission, IssuePermission, CommentPermission, ContributorPermission
 from api import serializers
 from api.models import Project, Issue, Comment, Contributor
-from authentication.models import User
 
 
 class MultipleSerializerMixin:
@@ -57,6 +55,10 @@ class IssueViewSet(MultipleSerializerMixin, ModelViewSet):
     def get_queryset(self):
         return Issue.objects.filter(project=self.kwargs['project_pk'], project__contributors=self.request.user)
 
+    def perform_create(self, serializer):
+        serializer.save(project=Project.objects.get(id=self.kwargs['project_pk']),
+                        author_user=self.request.user)
+
 
 class CommentViewSet(MultipleSerializerMixin, ModelViewSet):
 
@@ -68,3 +70,7 @@ class CommentViewSet(MultipleSerializerMixin, ModelViewSet):
     def get_queryset(self):
         return Comment.objects.filter(issue=self.kwargs['issue_pk'], issue__project=self.kwargs['project_pk'],
                                       issue__project__contributors=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(issue=Issue.objects.get(id=self.kwargs['issue_pk']),
+                        author_user=self.request.user)
