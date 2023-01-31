@@ -47,7 +47,7 @@ class User(AbstractUser):
     email = EmailField(unique=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+    REQUIRED_FIELDS = ['password', 'first_name', 'last_name']
 
     objects = UserManager()
 

@@ -19,6 +19,7 @@ from rest_framework_nested import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from api.views import ProjectViewSet, IssueViewSet, CommentViewSet, ContributorViewSet
+from authentication.views import UserViewSet
 
 API_PATH = 'api/'
 
@@ -36,6 +37,7 @@ issue_router.register(r'comments', CommentViewSet, basename='comment')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path(API_PATH + 'signup/', UserViewSet.as_view({'post': 'create'}), name='signup'),
     path(API_PATH + 'login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path(API_PATH + 'login/token_refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path(API_PATH, include(router.urls)),
