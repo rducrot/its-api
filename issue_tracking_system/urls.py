@@ -18,16 +18,15 @@ from django.urls import path, include
 from rest_framework_nested import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from api.views import ProjectViewSet, IssueViewSet, CommentViewSet
-from authentication.views import UserViewSet
+from api.views import ProjectViewSet, IssueViewSet, CommentViewSet, ContributorViewSet
 
 API_PATH = 'api/'
 
 router = routers.DefaultRouter()
 router.register(r'projects', ProjectViewSet, basename='project')
 
-user_router = routers.NestedSimpleRouter(router, r'projects', lookup='project')
-user_router.register(r'users', UserViewSet, basename='user')
+contributor_router = routers.NestedSimpleRouter(router, r'projects', lookup='project')
+contributor_router.register(r'users', ContributorViewSet, basename='user')
 
 project_router = routers.NestedSimpleRouter(router, r'projects', lookup='project')
 project_router.register(r'issues', IssueViewSet, basename='issue')
@@ -37,10 +36,10 @@ issue_router.register(r'comments', CommentViewSet, basename='comment')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(API_PATH + 'token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path(API_PATH + 'token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path(API_PATH + 'login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path(API_PATH + 'login/token_refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path(API_PATH, include(router.urls)),
-    path(API_PATH, include(user_router.urls)),
+    path(API_PATH, include(contributor_router.urls)),
     path(API_PATH, include(project_router.urls)),
     path(API_PATH, include(issue_router.urls)),
 ]

@@ -64,6 +64,26 @@ class IssueDetailSerializer(serializers.ModelSerializer):
         return serializer.data
 
 
+class ContributorListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contributor
+        fields = ['user']
+
+    def to_representation(self, instance):
+        self.fields['user'] = UserSerializer(read_only=True)
+        return super().to_representation(instance)
+
+
+class ContributorDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contributor
+        fields = ['user', 'permission', 'role']
+
+    def to_representation(self, instance):
+        self.fields['user'] = UserSerializer(read_only=True)
+        return super().to_representation(instance)
+
+
 class ProjectListSerializer(serializers.ModelSerializer):
 
     class Meta:
