@@ -7,7 +7,7 @@ Issue Tracking System API
 ## Présentation
  Issue Tracking System API est un système de gestion de projets permettant de remonter et suivre des problèmes techniques.
 ## Documentation API
-La documentation est disponible sur [Postman](https://www.postman.com/payload-candidate-93082268/workspace/its-api/collection/15224502-8ec6741d-8e57-4c4b-bec3-25b6a85c0316?action=share&creator=15224502).
+La documentation est disponible sur [Postman](https://documenter.getpostman.com/view/15224502/2s935poNEt).
 ## Installation
 1. Cloner le répertoire depuis Github, puis se placer dans le répertoire principal.
 ```shell

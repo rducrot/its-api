@@ -5,6 +5,9 @@ from authentication.serializers import UserSerializer
 
 
 class CommentListSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the comments of an issue.
+    """
 
     class Meta:
         model = Comment
@@ -12,6 +15,9 @@ class CommentListSerializer(serializers.ModelSerializer):
 
 
 class CommentDetailSerializer(serializers.ModelSerializer):
+    """
+    Serializer for a single comment.
+    """
 
     author_user = serializers.SerializerMethodField()
     project = serializers.SerializerMethodField()
@@ -37,8 +43,10 @@ class CommentDetailSerializer(serializers.ModelSerializer):
         return serializer.data
 
 
-
 class IssueListSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the issues of a project.
+    """
 
     class Meta:
         model = Issue
@@ -46,6 +54,9 @@ class IssueListSerializer(serializers.ModelSerializer):
 
 
 class IssueDetailSerializer(serializers.ModelSerializer):
+    """
+    Serializer for a single issue.
+    """
 
     project = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
@@ -66,6 +77,10 @@ class IssueDetailSerializer(serializers.ModelSerializer):
 
 
 class ContributorListSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the contributors of a project.
+    """
+
     class Meta:
         model = Contributor
         fields = ['user']
@@ -76,6 +91,10 @@ class ContributorListSerializer(serializers.ModelSerializer):
 
 
 class ContributorDetailSerializer(serializers.ModelSerializer):
+    """
+    Serializer for a single contributor.
+    """
+
     class Meta:
         model = Contributor
         fields = ['user', 'permission', 'role']
@@ -86,6 +105,9 @@ class ContributorDetailSerializer(serializers.ModelSerializer):
 
 
 class ProjectListSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the projects related to the authenticated user.
+    """
 
     class Meta:
         model = Project
@@ -100,6 +122,9 @@ class ProjectListSerializer(serializers.ModelSerializer):
 
 
 class ProjectDetailSerializer(serializers.ModelSerializer):
+    """
+    Serializer for a single project.
+    """
 
     contributors = serializers.SerializerMethodField()
     issues = serializers.SerializerMethodField()

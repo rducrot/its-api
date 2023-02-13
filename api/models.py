@@ -3,6 +3,9 @@ from django.conf import settings
 
 
 class Project(models.Model):
+    """
+    Project object. Every authenticated user can create it.
+    """
 
     title = models.CharField(max_length=64)
     description = models.CharField(max_length=4096, blank=True)
@@ -26,6 +29,9 @@ class Project(models.Model):
 
 
 class Issue(models.Model):
+    """
+    Issue object. Must be related to a project.
+    """
 
     title = models.CharField(max_length=64)
     description = models.CharField(max_length=4096, blank=True)
@@ -65,6 +71,9 @@ class Issue(models.Model):
 
 
 class Comment(models.Model):
+    """
+    Comment object. Must be related to an issue.
+    """
 
     description = models.CharField(max_length=4096)
 
@@ -81,6 +90,11 @@ class Comment(models.Model):
 
 
 class Contributor(models.Model):
+    """
+    Contributor object. Table through between a user and a project.
+    The 'author' permission is granted to the user who creates the project.
+    Every user added to the project has a 'contributor' permission.
+    """
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)

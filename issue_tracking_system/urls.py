@@ -23,6 +23,7 @@ from authentication.views import UserViewSet
 
 API_PATH = 'api/'
 
+# Nested routers allow to build paths such as 127.0.0.1:8000:/projects/1/issues/1/comments/1/
 router = routers.DefaultRouter()
 router.register(r'projects', ProjectViewSet, basename='project')
 

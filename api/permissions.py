@@ -2,6 +2,10 @@ from rest_framework.permissions import BasePermission
 
 
 class ProjectPermission(BasePermission):
+    """
+    Permissions for the project object.
+    Only the author of the project can update and delete it.
+    """
 
     def has_permission(self, request, view):
         return bool(request.user and request.user.is_authenticated)
@@ -16,6 +20,10 @@ class ProjectPermission(BasePermission):
 
 
 class ContributorPermission(BasePermission):
+    """
+    Permissions for the contributor object.
+    Only the author of the linked project can update and delete it.
+    """
 
     def has_permission(self, request, view):
         return bool(request.user and request.user.is_authenticated)
@@ -30,6 +38,10 @@ class ContributorPermission(BasePermission):
 
 
 class IssuePermission(BasePermission):
+    """
+    Permissions for the issue object.
+    Only the author of the issue or the project can update and delete it.
+    """
 
     def has_permission(self, request, view):
         return bool(request.user and request.user.is_authenticated)
@@ -44,6 +56,10 @@ class IssuePermission(BasePermission):
 
 
 class CommentPermission(BasePermission):
+    """
+    Permissions for the comment object.
+    Only the author of the comment or the project can update and delete it.
+    """
 
     def has_permission(self, request, view):
         return bool(request.user and request.user.is_authenticated)

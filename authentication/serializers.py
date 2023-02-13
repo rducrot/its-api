@@ -5,6 +5,9 @@ from authentication.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the User object.
+    """
 
     class Meta:
         model = get_user_model()

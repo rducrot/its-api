@@ -6,18 +6,21 @@ from api.models import Project, Issue, Comment, Contributor
 
 
 class MultipleSerializerMixin:
+    """
+    Mixin that returns a serializer depending on list or detail view.
+    """
     detail_serializer_class = None
 
     def get_serializer_class(self):
-        # Notre mixin détermine quel serializer à utiliser
-        # même si elle ne sait pas ce que c'est ni comment l'utiliser
         if self.action == 'retrieve' and self.detail_serializer_class is not None:
-            # Si l'action demandée est le détail alors nous retournons le serializer de détail
             return self.detail_serializer_class
         return super().get_serializer_class()
 
 
 class ProjectViewSet(MultipleSerializerMixin, ModelViewSet):
+    """
+    View set for projects with a filter that only returns projects where the user is a contributor.
+    """
 
     permission_classes = [ProjectPermission]
 
@@ -29,6 +32,9 @@ class ProjectViewSet(MultipleSerializerMixin, ModelViewSet):
 
 
 class ContributorViewSet(MultipleSerializerMixin, ModelViewSet):
+    """
+    View set that returns the contributors of a project.
+    """
 
     permission_classes = [ContributorPermission]
 
@@ -46,6 +52,9 @@ class ContributorViewSet(MultipleSerializerMixin, ModelViewSet):
 
 
 class IssueViewSet(MultipleSerializerMixin, ModelViewSet):
+    """
+    View set that returns the issues of a project.
+    """
 
     permission_classes = [IssuePermission]
 
@@ -61,6 +70,9 @@ class IssueViewSet(MultipleSerializerMixin, ModelViewSet):
 
 
 class CommentViewSet(MultipleSerializerMixin, ModelViewSet):
+    """
+    View set that returns the comments of an issue.
+    """
 
     permission_classes = [CommentPermission]
 

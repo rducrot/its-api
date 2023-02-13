@@ -42,6 +42,9 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
+    """
+    Custom User object. Uses email as identifier.
+    """
 
     username = None
     email = EmailField(unique=True)
@@ -52,6 +55,9 @@ class User(AbstractUser):
     objects = UserManager()
 
     def is_author(self, project):
+        """
+        Return True if the current user is the author of the project.
+        """
         try:
             instance = Contributor.objects.get(project=project, user=self)
             if instance.permission == Contributor.Permission.AUTHOR:
